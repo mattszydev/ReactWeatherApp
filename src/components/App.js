@@ -1,11 +1,10 @@
 import React from 'react';
 import './App.css';
 import KEY from './key.js'
-import Card from "./card"
+import {Card, MainCard} from "./Cards"
 import { v4 as uuidv4 } from 'uuid';
 import styled from "styled-components"
 import Form from "./Form"
-
 let locationData = require("../data/city.list.min.json");
 
 const GridContainer = styled.div`
@@ -14,88 +13,91 @@ const GridContainer = styled.div`
     justify-content: space-around;
 `;
 
-
-
 class App extends React.Component{
   constructor(props){
     super(props);
 
     this.state = {
-      items: [],
+      /*App State */
+      apiData: [],
       isLoaded: false,
+      currentCity:{},
+      /*Form State */
       queryCityResults: [],
-      currentCity: [{
-        id: 4180386,
-        name: "Athens",
-        state: "GA",
-        country: "US",
-        coord: {
-            "lon": -83.377937,
-            "lat": 33.960949
-        },
-    }]
+      selectedCity: {},
+      selectedIndex: null,
+      formField:"",
+      suggestionVisible: false,
       };
   }
 
-  handleChange = (e) =>{
-    /*
+  onSubmit = (e) =>{
+    e.preventDefault();
     this.setState({
-      queryID: e.target.value,
-    });
-    */
-    let result = locationData.filter(city =>(
-      city.name===e.target.value
-    ))
+      currentCity: this.state.selectedCity,
+      selectedCity: {},
+      isLoaded: false,
+      formField:""
+    })
+    this.fetchData();
+  };
+
+  handleSelection = (e) =>{
     this.setState({
-      queryCityResults: result,
+        selectedIndex: parseInt(e.target.dataset.index, 10),
+        formField: e.target.dataset.selection,
+        suggestionVisible: false,
     })
   };
 
-  onSubmitTask = (e) =>{
-    e.preventDefault();
+  handleChange = (e) =>{
+    let result = locationData.filter(city =>(
+      city.name.toLowerCase()===e.target.value.toLowerCase()
+    ))
     this.setState({
-      currentCity: this.state.queryCityResults,
-      queryCityResults:"",
-      /*
-      queryID: this.state.currentCity.id,
-      */
-      isLoaded: false
+      queryCityResults: result,
+      formField: e.target.value,
+      suggestionVisible: true,
     })
-    this.fetchData();
-  }
+  };
 
   async fetchData(){
-    const url = `https://api.openweathermap.org/data/2.5/forecast?id=${this.state.currentCity[0].id}&units=imperial&APPID=${KEY}`;
+    const url = `https://api.openweathermap.org/data/2.5/forecast?id=${this.state.queryCityResults[this.state.selectedIndex].id}&units=imperial&APPID=${KEY}`;
     const response = await fetch(url);
     const data = await response.json();
     
     this.setState({
       isLoaded: true,
-      items: data,
+      apiData: data,
+      currentCity: this.state.queryCityResults[this.state.selectedIndex],
     });
   }
 
   componentDidMount(){
-   this.fetchData();
-  };
-
-  /*
-  componentDidUpdate(prevProps){
-    if (this.props.currentCity !== prevProps.currentCity){
+    if(!this.state.currentCity){
       this.fetchData();
     }
-  }
-  */
+  };
 
   render(){
 
     return(
       <div className="App">
-        <h1>{this.state.isLoaded ? this.state.items.city.name : 'Loading'}</h1>
+        <Form handleChangeProps={this.handleChange}
+              handleSubmitProps={this.onSubmit}
+              selectionProps={this.handleSelection}
+              onUpdateCityProps={this.onUpdateCity}
+              valueProps={this.state}/>
+
+        {
+          this.state.isLoaded ?
+          <MainCard contextProps={this.state} /> : <div></div>
+        }
+
         <GridContainer>
           {this.state.isLoaded 
-          ? this.state.items.list.filter((day,i)=>(
-            !i || day.dt_txt.split(' ')[0] !== this.state.items.list[i-1].dt_txt.split(' ')[0]
+          ? this.state.apiData.list.filter((day,i)=>(
+            !i || day.dt_txt.split(' ')[0] !== this.state.apiData.list[i-1].dt_txt.split(' ')[0]
           ),this).map(entrie =>(
             <Card date={entrie.dt_txt.split(' ')[0]}
                   temp={entrie.main.temp}
@@ -106,11 +108,6 @@ class App extends React.Component{
           : <h2>Loading...</h2>
           }
         </GridContainer>
-      
-        <Form handleChangeProps={this.handleChange}
-              handleSubmitProps={this.onSubmitTask}
-              suggestionProps={this.state.queryCityResults}/>
-        
       </div>
     )
   }
