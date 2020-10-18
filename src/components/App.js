@@ -24,6 +24,7 @@ class App extends React.Component{
       /*App State */
       apiData: [],
       isLoaded: false,
+      
       currentCity:{
         "id": 5641727,
         "name": "Bozeman",
@@ -34,7 +35,7 @@ class App extends React.Component{
           "lat": 45.679649
         }
       },
-      /*Form State */
+      
       queryCityResults: [
         {
           "id": 5641727,
@@ -57,6 +58,11 @@ class App extends React.Component{
           "lat": 45.679649
         }
       },
+     /*
+      currentCity: {},
+      queryCityResults: {},
+      selectedCity: {},
+      */
       selectedIndex: 0,
       formField:"",
       suggestionVisible: false,
@@ -101,7 +107,7 @@ class App extends React.Component{
 
     this.setState({
       isLoaded: true,
-      apiData: formatData(apiRaw),
+      apiData: formatData(apiRaw.list),
       currentCity: this.state.queryCityResults[this.state.selectedIndex],
     });
   }
@@ -129,18 +135,11 @@ class App extends React.Component{
       
         <GridContainer>
           {this.state.isLoaded ?
-            this.state.apiData.list.filter((day,i)=>(
-              /* Returns the first entry for each new day in data */
-            !i || day.dt_txt.split(' ')[0] !== this.state.apiData.list[i-1].dt_txt.split(' ')[0]
-          ),this).map(entrie =>(
-
-            <Card date={entrie.dt_txt.split(' ')[0]}
-                  temp={entrie.main.temp}
-                  weather={entrie.weather[0].description}
-                  main={entrie.weather[0].main}
-                  key={uuidv4()}/>
-          )) 
-          : <h2>Loading...</h2>
+            this.state.apiData.map(entrie=>(
+              <Card contextProps={entrie}
+                    key={uuidv4()}
+              />
+            )): <h2>Loading...</h2>
           }
         </GridContainer>
       </div>
@@ -149,22 +148,3 @@ class App extends React.Component{
 }
 
 export default App;
-
-/*
-<GridContainer>
-          {this.state.isLoaded ?
-            this.state.apiData.list.filter((day,i)=>(
-               
-              !i || day.dt_txt.split(' ')[0] !== this.state.apiData.list[i-1].dt_txt.split(' ')[0]
-              ),this).map(entrie =>(
-    
-                <Card date={entrie.dt_txt.split(' ')[0]}
-                      temp={entrie.main.temp}
-                      weather={entrie.weather[0].description}
-                      main={entrie.weather[0].main}
-                      key={uuidv4()}/>
-              )) 
-              : <h2>Loading...</h2>
-              }
-            </GridContainer>
-*/
