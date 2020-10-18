@@ -5,7 +5,10 @@ import {Card, MainCard} from "./Cards"
 import { v4 as uuidv4 } from 'uuid';
 import styled from "styled-components"
 import Form from "./Form"
+import formatData from "./format"
 let locationData = require("../data/city.list.min.json");
+
+
 
 const GridContainer = styled.div`
     display:  flex;
@@ -21,11 +24,40 @@ class App extends React.Component{
       /*App State */
       apiData: [],
       isLoaded: false,
-      currentCity:{},
+      currentCity:{
+        "id": 5641727,
+        "name": "Bozeman",
+        "state": "MT",
+        "country": "US",
+        "coord": {
+          "lon": -111.038559,
+          "lat": 45.679649
+        }
+      },
       /*Form State */
-      queryCityResults: [],
-      selectedCity: {},
-      selectedIndex: null,
+      queryCityResults: [
+        {
+          "id": 5641727,
+          "name": "Bozeman",
+          "state": "MT",
+          "country": "US",
+          "coord": {
+            "lon": -111.038559,
+            "lat": 45.679649
+          }
+        }
+      ],
+      selectedCity: {
+        "id": 5641727,
+        "name": "Bozeman",
+        "state": "MT",
+        "country": "US",
+        "coord": {
+          "lon": -111.038559,
+          "lat": 45.679649
+        }
+      },
+      selectedIndex: 0,
       formField:"",
       suggestionVisible: false,
       };
@@ -62,13 +94,14 @@ class App extends React.Component{
   };
 
   async fetchData(){
+    
     const url = `https://api.openweathermap.org/data/2.5/forecast?id=${this.state.queryCityResults[this.state.selectedIndex].id}&units=imperial&APPID=${KEY}`;
     const response = await fetch(url);
-    const data = await response.json();
-    
+    const apiRaw = await response.json();
+
     this.setState({
       isLoaded: true,
-      apiData: data,
+      apiData: formatData(apiRaw),
       currentCity: this.state.queryCityResults[this.state.selectedIndex],
     });
   }
@@ -80,7 +113,7 @@ class App extends React.Component{
   };
 
   render(){
-
+    
     return(
       <div className="App">
         <Form handleChangeProps={this.handleChange}
@@ -93,12 +126,14 @@ class App extends React.Component{
           this.state.isLoaded ?
           <MainCard contextProps={this.state} /> : <div></div>
         }
-
+      
         <GridContainer>
-          {this.state.isLoaded 
-          ? this.state.apiData.list.filter((day,i)=>(
+          {this.state.isLoaded ?
+            this.state.apiData.list.filter((day,i)=>(
+              /* Returns the first entry for each new day in data */
             !i || day.dt_txt.split(' ')[0] !== this.state.apiData.list[i-1].dt_txt.split(' ')[0]
           ),this).map(entrie =>(
+
             <Card date={entrie.dt_txt.split(' ')[0]}
                   temp={entrie.main.temp}
                   weather={entrie.weather[0].description}
@@ -114,3 +149,22 @@ class App extends React.Component{
 }
 
 export default App;
+
+/*
+<GridContainer>
+          {this.state.isLoaded ?
+            this.state.apiData.list.filter((day,i)=>(
+               
+              !i || day.dt_txt.split(' ')[0] !== this.state.apiData.list[i-1].dt_txt.split(' ')[0]
+              ),this).map(entrie =>(
+    
+                <Card date={entrie.dt_txt.split(' ')[0]}
+                      temp={entrie.main.temp}
+                      weather={entrie.weather[0].description}
+                      main={entrie.weather[0].main}
+                      key={uuidv4()}/>
+              )) 
+              : <h2>Loading...</h2>
+              }
+            </GridContainer>
+*/

@@ -21,6 +21,10 @@ const findIcon = (param) => {
     }
 }
 
+const findHigh = () => {
+    
+}
+
 const CardContainer = styled.div`
     margin: 1rem;
     padding: 1rem;
