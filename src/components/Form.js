@@ -37,9 +37,19 @@ const FormContainer = styled.form`
     }
     button{
         position: absolute;
-        right: 5rem;
-        top: 3.5rem;
+        right: 4rem;
+        top: 3rem;
         z-index: 100;
+        border: 1px solid white;
+        background-color: transparent;
+        color: white;
+        font-size: 1.2rem;
+        border-radius: 10px;
+        :hover{
+            cursor: pointer;
+            color: black;
+            background-color: white;
+        }
     }
 `;
 

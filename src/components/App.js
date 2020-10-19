@@ -12,8 +12,12 @@ let locationData = require("../data/city.list.min.json");
 
 const GridContainer = styled.div`
     display:  flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: space-around;
+    @media only screen and (max-width: 400px){
+      margin-bottom: 7rem;
+    }
 `;
 
 class App extends React.Component{
