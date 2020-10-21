@@ -31,7 +31,7 @@ class App extends React.Component {
       queryCityResults: {},
       //Form state
       selectedCity: {},
-      selectedIndex: 0,
+      selectedIndex: -1,
       formField: "",
       suggestionVisible: false,
     };
@@ -39,13 +39,15 @@ class App extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.setState({
-      currentCity: this.state.selectedCity,
-      selectedCity: {},
-      isLoaded: false,
-      formField: "",
-    });
-    this.fetchData();
+    if(this.state.selectedIndex >= 0){
+      this.setState({
+        //currentCity: this.state.selectedCity,
+        selectedCity: {},
+        isLoaded: false,
+        formField: "",
+      });
+      this.fetchData();
+    }
   };
 
   handleSelection = (e) => {
@@ -71,9 +73,8 @@ class App extends React.Component {
   };
 
   async fetchData() {
-    const url = `https://api.openweathermap.org/data/2.5/forecast?id=${
-      this.state.queryCityResults[this.state.selectedIndex].id
-    }&units=imperial&APPID=${KEY}`;
+    const code = this.state.queryCityResults[this.state.selectedIndex].id
+    const url = `${process.env.REACT_APP_URL}/.netlify/functions/getData?code=${code}`
     const response = await fetch(url);
     const apiRaw = await response.json();
 
