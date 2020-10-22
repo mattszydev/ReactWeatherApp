@@ -42,9 +42,10 @@ const CardContainer = styled.div`
   padding: 1rem;
   border-radius: 10px;
   width: 150px;
-  background-color: rgba(0, 0, 0, 0.2);
-  color: white;
+  background-color: white;
+  color: black;
   justify-content: center;
+  box-shadow: 0px 10px 21px -3px rgba(0,0,0,0.75);
 
   @media only screen and (max-width: 400px) {
     width: 100%;
@@ -60,7 +61,7 @@ const CardContainer = styled.div`
   }
 
   .high {
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid black;
     padding-bottom: 0.5rem;
   }
 
@@ -70,6 +71,14 @@ const CardContainer = styled.div`
     flex-direction: column;
     max-width: 4rem;
     justify-self: center;
+  }
+
+  .temp-high{
+    color: rgb(255, 87, 87);
+  }
+
+  .temp-low{
+    color: rgb(69, 159, 255);
   }
 `;
 
@@ -89,8 +98,8 @@ const Card = (props) => {
       </div>
       {findIcon(props.contextProps[0].weather[0].main) || "Icon"}
       <div className="temp">
-        <h3 className="high">{`${highTemp}°` || "Temperature"}</h3>
-        <h3>{`${lowTemp}°` || "Temperature"}</h3>
+        <h3 className="high temp-high">{`${highTemp}°` || "Temperature"}</h3>
+        <h3 className="temp-low">{`${lowTemp}°` || "Temperature"}</h3>
       </div>
       <h3>{props.contextProps[0].weather[0].description || "Weather"}</h3>
     </CardContainer>
@@ -101,21 +110,23 @@ const MainCardContainer = styled.div`
   display: grid;
   grid-template-columns: auto;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.3);
-  color: white;
+  background-color: white;
+  color: black;
   max-width: 500px;
   margin-left: 4rem;
-  margin-top: 4rem;
+  margin-top: 6rem;
   padding: 2rem;
   border-radius: 10px;
+  box-shadow: 0px 10px 21px -3px rgba(0,0,0,0.75);
 
   @media only screen and (max-width: 400px) {
     margin: 7rem 1rem 0 1rem;
     padding: 1rem;
+    font-size: .8rem;
   }
 
   .high {
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid black;
     padding-bottom: 0.5rem;
     margin-bottom: 0.5rem;
   }
@@ -158,12 +169,21 @@ const MainCardContainer = styled.div`
   .time-card {
     padding: 1rem;
   }
+
+  .temp-high{
+    color: rgb(255, 87, 87);
+  }
+
+  .temp-low{
+    color: rgb(69, 159, 255);
+  }
 `;
 
 const UpperContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid black;
   padding-bottom: 2rem;
 `;
 const MainCard = (props) => {
@@ -184,8 +204,8 @@ const MainCard = (props) => {
             currentCity.state === "" ? currentCity.country : currentCity.state
           }`}</h1>
           <div className="temp">
-            <h3 className="high">{`${highTemp}°` || "Temperature"}</h3>
-            <h3>{`${lowTemp}°` || "Temperature"}</h3>
+            <h3 className="high temp-high">{`${highTemp}°` || "Temperature"}</h3>
+            <h3 className="temp-low">{`${lowTemp}°` || "Temperature"}</h3>
           </div>
         </div>
         <div className="right">

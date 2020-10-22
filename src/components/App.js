@@ -1,6 +1,5 @@
 import React from "react";
 import "./App.css";
-import KEY from "./key.js";
 import { Card, MainCard } from "./Cards";
 import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
@@ -9,7 +8,7 @@ import formatData from "./format";
 let locationData = require("../data/city.list.min.json");
 
 const GridContainer = styled.div`
-  margin-top: 4rem;
+  margin-top: 2.5rem;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -17,6 +16,10 @@ const GridContainer = styled.div`
   @media only screen and (max-width: 400px) {
     margin-bottom: 7rem;
   }
+`;
+
+const Loading = styled.div`
+  margin-top: 5rem;
 `;
 
 class App extends React.Component {
@@ -30,7 +33,6 @@ class App extends React.Component {
       currentCity: {},
       queryCityResults: {},
       //Form state
-      selectedCity: {},
       selectedIndex: -1,
       formField: "",
       suggestionVisible: false,
@@ -41,8 +43,6 @@ class App extends React.Component {
     e.preventDefault();
     if(this.state.selectedIndex >= 0){
       this.setState({
-        //currentCity: this.state.selectedCity,
-        selectedCity: {},
         isLoaded: false,
         formField: "",
       });
@@ -115,7 +115,9 @@ class App extends React.Component {
               <Card contextProps={entrie} key={uuidv4()} />
             ))
           ) : (
-            <h2>Loading...</h2>
+            <Loading>
+              <h2>Loading...</h2>
+            </Loading>
           )}
         </GridContainer>
       </div>
