@@ -1,68 +1,36 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+# Objective
 
-In the project directory, you can run:
+This app allows the user to search for a city of their choice and display a real time 5 day weather forecast for the city.
 
-### `npm start`
+## Technology Used
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* Create React App
+* Open Weather Map API
+* Netlify Lambda Functions
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Project Use
 
-### `npm test`
+When the user first arrives at the page, they will see a search bar located at the top right corner. The format of a search is demonstrated in the input by first typing in the city name. A list of search results will begin the populate under the search bar. The user will then make a selection from the dropdown and then click the `search` button. After initiating the search, the page will render a large card at the top with the current days weather and available hourly readings. Smaller cards underneath display a 5 day forecast of the city for a week.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Project Highlights
 
-### `npm run build`
+### Search Suggestions
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+In order to generate the list of suggested cities listed for the user in the search bar component, I use a combination of filter and map in order to search a JSON file provided by Open Weather Map API. This file lists all cities supported by the API along with the numeric codes associated with each. These codes are the actual parameter sent to the API in order to retrieve the propper data. The search results are the first 10 matching citites for the user's search parameter.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Environmental Variables
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This application is deployed using Netlify. Netlify's platform provides developer's predefined environmental variables that they can make use within their applications. In order to use the variables for this application, I had to rename the Netlify variables in order to comply with Create React App's naming convention of appending all names with 'REACT_APP_' for environmental variables. I remapped all Netlify variables with this convention and was able to make use of some for the project. 
 
-### `npm run eject`
+In order to protect my API key, I could not store it as an Environmental Variable within Create React App as these are all still available for the client to view. Netlify provides the ability to define variables straight from the development dashboard on their platform. This is where I defined my API key in order to use in my serverless function.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Serverless Function API Call
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+In order to properly protect the API key granted to me by Open Weather Map API, I implemented a Netlify serverless function in order to make the call. Netlify functions are a service using AWS Lambda functions at their core. I created a simple function that receives the numeric code from the client application and conducts the API call to Open Weather Map. The resulting JSON payload is sent back to the client.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Data Formatting
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+I initially found the raw API data received from Open Weather Map unwieldy for my purposes. The original data comes formatted as an array of 40 objects, each representing a weather measurement every 3 hours totaling into 5 days worth of measurements. In order to group this data by unique days, I wrote a function that was able to locate and record the first and last occurence of measurements for each day. I used these recorded indexes to slice and reformat so that the data was now an array of arrays. Each array only containing the objects representing a single day. This format made graphical rendering much easier.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
