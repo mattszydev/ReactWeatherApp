@@ -1,10 +1,11 @@
 import React from "react";
 import "./App.css";
-import { Card, MainCard } from "./Cards";
+import Card from "./Cards";
+import MainCard from "./MainCard"
 import { v4 as uuidv4 } from "uuid";
 import styled from "styled-components";
 import Form from "./Form";
-import formatData from "./format";
+import formatData from "./ComponentFunctions/format";
 let locationData = require("../data/city.list.min.json");
 
 const GridContainer = styled.div`
