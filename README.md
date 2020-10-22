@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 This app allows the user to search for a city of their choice and display a real time 5 day weather forecast for the city.
 
+![Main App](https://github.com/mattszydev/ReactWeatherApp/blob/master/images/MainScreenShot.png)
+
 ## Technology Used
 
 * Create React App
