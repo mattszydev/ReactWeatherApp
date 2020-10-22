@@ -20,6 +20,8 @@ When the user first arrives at the page, they will see a search bar located at t
 
 In order to generate the list of suggested cities listed for the user in the search bar component, I use a combination of filter and map in order to search a JSON file provided by Open Weather Map API. This file lists all cities supported by the API along with the numeric codes associated with each. These codes are the actual parameter sent to the API in order to retrieve the propper data. The search results are the first 10 matching citites for the user's search parameter.
 
+![Drop down menu](https://github.com/mattszydev/ReactWeatherApp/blob/master/images/DropDown.png)
+
 ### Environmental Variables
 
 This application is deployed using Netlify. Netlify's platform provides developer's predefined environmental variables that they can make use within their applications. In order to use the variables for this application, I had to rename the Netlify variables in order to comply with Create React App's naming convention of appending all names with 'REACT_APP_' for environmental variables. I remapped all Netlify variables with this convention and was able to make use of some for the project. 
