@@ -44,8 +44,7 @@ const FormContainer = styled.form`
     top: 3.25rem;
     z-index: 200;
     justify-self: flex-start;
-    height: 2.5rem;
-    width: 6rem;
+    
     border: 1px solid black;
     background-color: transparent;
     color: black;
