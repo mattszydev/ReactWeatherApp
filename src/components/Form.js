@@ -3,6 +3,10 @@ import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
 const FormContainer = styled.form`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  z-index: 200;
   ul {
     width: 100%;
     list-style: none;
@@ -39,6 +43,9 @@ const FormContainer = styled.form`
     right: 4rem;
     top: 3.25rem;
     z-index: 200;
+    justify-self: flex-start;
+    height: 2.5rem;
+    width: 6rem;
     border: 1px solid black;
     background-color: transparent;
     color: black;
@@ -56,6 +63,7 @@ const FormContainer = styled.form`
 `;
 
 const InputContainer = styled.div`
+
   position: absolute;
   right: 10rem;
   top: 3rem;

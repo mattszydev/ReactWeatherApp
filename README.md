@@ -14,7 +14,7 @@ This app allows the user to search for a city of their choice and display a real
 
 ## Project Use
 
-When the user first arrives at the page, they will see a search bar located at the top right corner. The format of a search is demonstrated in the input by first typing in the city name. A list of search results will begin the populate under the search bar. The user will then make a selection from the dropdown and then click the `search` button. After initiating the search, the page will render a large card at the top with the current days weather and available hourly readings. Smaller cards underneath display a 5 day forecast of the city for a week.
+When the user first arrives at the page, they will see a search bar located at the top right corner. The format of a search is demonstrated in the input by first typing in the city name. A list of search results will begin to populate under the search bar. The user will then make a selection from the dropdown and then click the `search` button. After initiating the search, the page will render a large card at the top with the current days weather and available hourly readings. Smaller cards underneath display a 5 day forecast of the city for a week.
 
 ## Project Highlights
 
@@ -26,7 +26,7 @@ In order to generate the list of suggested cities listed for the user in the sea
 
 ### Environmental Variables
 
-This application is deployed using Netlify. Netlify's platform provides developer's predefined environmental variables that they can make use within their applications. In order to use the variables for this application, I had to rename the Netlify variables in order to comply with Create React App's naming convention of appending all names with 'REACT_APP_' for environmental variables. I remapped all Netlify variables with this convention and was able to make use of some for the project. 
+This application is deployed using Netlify. Netlify's platform provides developers predefined environmental variables that they can make use of within their applications. In order to use the variables for this application, I had to rename the Netlify variables in order to comply with Create React App's naming convention of appending all names with 'REACT_APP_' for environmental variables. I remapped all Netlify variables with this convention and was able to make use of some for the project. 
 
 In order to protect my API key, I could not store it as an Environmental Variable within Create React App as these are all still available for the client to view. Netlify provides the ability to define variables straight from the development dashboard on their platform. This is where I defined my API key in order to use in my serverless function.
 

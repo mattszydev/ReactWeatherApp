@@ -11,7 +11,7 @@ const MainCardContainer = styled.div`
   color: black;
   max-width: 500px;
   margin-left: 4rem;
-  margin-top: 6rem;
+  margin-top: 5rem;
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0px 10px 21px -3px rgba(0,0,0,0.75);
@@ -61,6 +61,7 @@ const MainCardContainer = styled.div`
 
   .bottom-grid {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
   }
 

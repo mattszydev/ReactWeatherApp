@@ -45,23 +45,32 @@ const CardContainer = styled.div`
   .temp-low{
     color: rgb(69, 159, 255);
   }
+
+  .date-container{
+    display: flex;
+    font-size: .7rem;
+    justify-content: space-between;
+  }
 `;
 
 const Card = (props) => {
-  let date = props.contextProps[0].dt_txt.split(" ")[0].substr(5);
+  let data = props.contextProps;
+  let date = data[data.length-1].dt;
+
   let highTemp = Math.round(
-    Math.max(...props.contextProps.map((e) => e.main.temp_max))
+    Math.max(...data.map((e) => e.main.temp_max))
   );
   let lowTemp = Math.round(
-    Math.min(...props.contextProps.map((e) => e.main.temp_min))
+    Math.min(...data.map((e) => e.main.temp_min))
   );
   
   return (
     <CardContainer>
-      <div>
-        <h2>{date}</h2>
+      <div className="date-container">
+        <h2>{formatTime(date, "weekday", "short")}</h2>
+        <h2>{data[data.length-1].dt_txt.split(' ')[0].slice(5)}</h2>
       </div>
-      {findIcon(props.contextProps[0].weather[0].main) || "Icon"}
+      {findIcon(data[0].weather[0].main) || "Icon"}
       <div className="temp">
         <h3 className="high temp-high">{`${highTemp}°` || "Temperature"}</h3>
         <h3 className="temp-low">{`${lowTemp}°` || "Temperature"}</h3>

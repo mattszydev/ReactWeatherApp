@@ -9,6 +9,8 @@ import formatData from "./ComponentFunctions/format";
 let locationData = require("../data/city.list.min.json");
 
 const GridContainer = styled.div`
+  position: relative;
+  z-index: 100;
   margin-top: 2.5rem;
   display: flex;
   flex-wrap: wrap;
@@ -76,7 +78,12 @@ class App extends React.Component {
   async fetchData() {
     const code = this.state.queryCityResults[this.state.selectedIndex].id
     const url = `${process.env.REACT_APP_URL}/.netlify/functions/getData?code=${code}`
-    const response = await fetch(url);
+    const response = await fetch(url,{
+      headers : { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+       }
+    });
     const apiRaw = await response.json();
 
     this.setState({
