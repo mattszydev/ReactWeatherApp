@@ -4,8 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 
 const FormContainer = styled.form`
   position: relative;
+  width: 100%;
+  height: 10vh;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   z-index: 200;
   ul {
     width: 100%;
@@ -38,55 +40,54 @@ const FormContainer = styled.form`
       height: 100%;
     }
   }
-  button {
-    position: absolute;
-    right: 4rem;
-    top: 3.25rem;
-    z-index: 200;
-    justify-self: flex-start;
-    
-    border: 1px solid black;
-    background-color: transparent;
+`;
+
+const Button = styled.button`
+  max-height: 2rem;
+  border: 1px solid black;
+  background-color: transparent;
+  border-radius: 5px;
+  color: black;
+  font-size: 1.2rem;
+  margin-left: 1.5rem;
+  :hover {
+    cursor: pointer;
     color: black;
-    font-size: 1.2rem;
-    border-radius: 0;
-    :hover {
-      cursor: pointer;
-      color: black;
-      background-color: white;
-    }
-    @media only screen and (max-width: 450px){
-      right: 1.4rem;
-    }
+    background-color: white;
   }
 `;
 
 const InputContainer = styled.div`
-
-  position: absolute;
-  right: 10rem;
-  top: 3rem;
   margin: auto;
+  margin-top: 1.6rem;
   max-width: 500px;
   border: 1px solid black;
   background-color: white;
   padding: 0;
-  border-radius: 15px;
+  border-radius: 5px;
   overflow: hidden;
-  z-index: 200;
+  
   :hover {
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.4);
   }
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  max-width: 600px;
+  margin-right: 3rem;
+ 
   @media only screen and (max-width: 450px){
-    right:7rem;
-    top: 3rem;
-    margin: auto;
-  }
+      margin: .22rem auto;
+    }
 `;
 
 const Form = (props) => {
+  let data = props.valueProps;
   return (
     <FormContainer autoComplete="off" onSubmit={props.handleSubmitProps}>
+      <Wrapper>
       <InputContainer>
         <input
           onChange={props.handleChangeProps}
@@ -96,10 +97,11 @@ const Form = (props) => {
           value={props.valueProps.formField}
           placeholder="City, State"
         />
-        {props.valueProps.suggestionVisible &&
-        props.valueProps.queryCityResults ? (
+        {data.suggestionVisible &&
+        data.queryCityResults && 
+        data.formField !== "" ? (
           <ul>
-            {props.valueProps.queryCityResults.map((e, index) => (
+            {data.queryCityResults.map((e, index) => (
               <li
                 key={uuidv4()}
                 onClick={props.selectionProps}
@@ -116,7 +118,8 @@ const Form = (props) => {
           <div></div>
         )}
       </InputContainer>
-      <button type="submit">Search</button>
+      <Button type="submit">Search</Button>
+      </Wrapper>
     </FormContainer>
   );
 };
